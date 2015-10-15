@@ -18,12 +18,9 @@
  */
 package com.joanzapata;
 
-import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
 import com.joanzapata.pdfview.PDFView;
 import com.joanzapata.pdfview.listener.OnPageChangeListener;
 import com.joanzapata.pdfview.sample.R;
@@ -34,8 +31,9 @@ public class PDFViewActivity extends SherlockActivity implements OnPageChangeLis
 
     public static final String SAMPLE_FILE = "sample.pdf";
 
-    public static final String ABOUT_FILE = "estatement.pdf";
+    public static final String ABOUT_FILE = "sample.pdf";
 
+    View contentView;
     PDFView pdfView;
 
     String pdfName = SAMPLE_FILE;
@@ -51,9 +49,10 @@ public class PDFViewActivity extends SherlockActivity implements OnPageChangeLis
     {
         super.onCreate(savedInstanceState);
 
-        View view = getLayoutInflater().inflate(R.layout.activity_main, null, false);
-        setContentView(view);
-        pdfView = (PDFView) view.findViewById(R.id.pdfView);
+        contentView = getLayoutInflater().inflate(R.layout.activity_main, null, false);
+        pdfView = (PDFView) contentView.findViewById(R.id.pdfView);
+
+        setContentView(contentView);
     }
 
     @Override
