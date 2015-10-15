@@ -20,38 +20,50 @@ package com.joanzapata;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.googlecode.androidannotations.annotations.*;
 import com.joanzapata.pdfview.PDFView;
 import com.joanzapata.pdfview.listener.OnPageChangeListener;
 import com.joanzapata.pdfview.sample.R;
 
 import static java.lang.String.format;
 
-@EActivity(R.layout.activity_main)
-@OptionsMenu(R.menu.actionbar)
 public class PDFViewActivity extends SherlockActivity implements OnPageChangeListener {
 
     public static final String SAMPLE_FILE = "sample.pdf";
 
-    public static final String ABOUT_FILE = "about.pdf";
+    public static final String ABOUT_FILE = "estatement.pdf";
 
-    @ViewById
     PDFView pdfView;
 
-    @NonConfigurationInstance
     String pdfName = SAMPLE_FILE;
 
-    @NonConfigurationInstance
     Integer pageNumber = 1;
 
-    @AfterViews
     void afterViews() {
         display(pdfName, false);
     }
 
-    @OptionsItem
+    @Override
+    protected void onCreate(android.os.Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+
+        View view = getLayoutInflater().inflate(R.layout.activity_main, null, false);
+        setContentView(view);
+        pdfView = (PDFView) view.findViewById(R.id.pdfView);
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        display(ABOUT_FILE, true);
+    }
+
     public void about() {
         if (!displaying(ABOUT_FILE))
             display(ABOUT_FILE, true);

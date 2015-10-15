@@ -999,7 +999,7 @@ public class PDFView extends SurfaceView {
 
         private boolean showMinimap = false;
         
-        private boolean swipeVertical = false;
+        private boolean swipeVertical = true;
 
         private int maskColor = Color.BLACK;
 
