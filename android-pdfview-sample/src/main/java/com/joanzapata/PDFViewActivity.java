@@ -18,12 +18,23 @@
  */
 package com.joanzapata;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.view.View;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.joanzapata.pdfview.PDFView;
 import com.joanzapata.pdfview.listener.OnPageChangeListener;
 import com.joanzapata.pdfview.sample.R;
+import com.joanzapata.pdfview.util.FileUtils;
+
+import android.support.v4.content.FileProvider;
+
+import java.io.File;
+import java.util.List;
 
 import static java.lang.String.format;
 
@@ -32,6 +43,8 @@ public class PDFViewActivity extends SherlockActivity implements OnPageChangeLis
     public static final String SAMPLE_FILE = "sample.pdf";
 
     public static final String ABOUT_FILE = "sample.pdf";
+
+    static final String PDF_FILE_PROVIDER_AUTHORITY = "com.joanzapata.PdfFileProvider";
 
     View contentView;
     PDFView pdfView;
@@ -72,10 +85,40 @@ public class PDFViewActivity extends SherlockActivity implements OnPageChangeLis
         if (jumpToFirstPage) pageNumber = 1;
         setTitle(pdfName = assetFileName);
 
+        copyAssetFileToInternalCache(assetFileName);
+
+        /*
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("application/pdf");
+        intent.putExtra(Intent.EXTRA_SUBJECT, assetFileName);
+        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(this, PDF_FILE_PROVIDER_AUTHORITY, new File(assetFileName)));
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        List<ResolveInfo> list = this.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (list.size() > 0) {
+            startActivity(intent);
+        }
+        */
+
+        /*
         pdfView.fromAsset(assetFileName)
                 .defaultPage(pageNumber)
                 .onPageChange(this)
                 .load();
+        */
+
+        try {
+            pdfView.fromUri(FileProvider.getUriForFile(getApplicationContext(), PDF_FILE_PROVIDER_AUTHORITY, FileUtils.fileFromAsset(getApplicationContext(), assetFileName)))
+                    .defaultPage(pageNumber)
+                    .onPageChange(this)
+                    .load();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    private void copyAssetFileToInternalCache(String assetFileName) {
+
     }
 
     @Override

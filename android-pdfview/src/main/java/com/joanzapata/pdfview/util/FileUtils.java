@@ -29,7 +29,7 @@ public class FileUtils {
     }
 
     public static File fileFromAsset(Context context, String assetName) throws IOException {
-        File outFile = new File(context.getCacheDir(), assetName + "-pdfview.pdf");
+        File outFile = new File(context.getCacheDir(), assetName);
         copy(context.getAssets().open(assetName), outFile);
         return outFile;
     }

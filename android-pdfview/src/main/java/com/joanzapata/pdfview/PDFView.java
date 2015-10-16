@@ -977,6 +977,11 @@ public class PDFView extends SurfaceView {
         return new Configurator(Uri.fromFile(file));
     }
 
+    /** Use an uri from content provider */
+    public Configurator fromUri(Uri uri) {
+        return new Configurator(uri);
+    }
+
     private enum State {DEFAULT, LOADED, SHOWN}
 
     public class Configurator {
@@ -987,7 +992,7 @@ public class PDFView extends SurfaceView {
 
         private boolean enableSwipe = true;
 
-	private boolean enableDoubletap = true ;
+	    private boolean enableDoubletap = true ;
 
         private OnDrawListener onDrawListener;
 
@@ -1019,7 +1024,7 @@ public class PDFView extends SurfaceView {
             return this;
         }
         
-	public Configurator enableDoubletap(boolean enableDoubletap){
+	    public Configurator enableDoubletap(boolean enableDoubletap){
             this.enableDoubletap = enableDoubletap ;
             return this ;
         }
